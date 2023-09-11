@@ -20,9 +20,6 @@ sense=SenseHat()
 sense.clear()
 sleep(30)
 
-blue= (0,0,255)
-yellow= (255,255,0)
-#red=(255,0,0)
 for i in range(0,2):
     sense.show_message(get_ip())
 
