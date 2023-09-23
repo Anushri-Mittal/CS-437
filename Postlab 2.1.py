@@ -10,8 +10,22 @@ for packet in PcapReader('/home/pi/packet_capture2.pcap'):
         initial_packet = packet
         idx += 1
     if packet.haslayer(UDP):
-        packets.append(1)
-        times.append(packet.time - initial_packet.time)
+        byte_to_string = bytes(packet[UDP].payload)
+        is_alert = True
+        alert = b'Motion Detected!'
+        j = len(alert)-1
+        for i in range(len(byte_to_string)-1, -1, -1):
+            if j < 0:
+                break
+            if alert[j] == byte_to_string[i]:
+                j-=1
+                continue
+            else:
+                is_alert = False
+                break
+        if is_alert == True:
+            packets.append(1)
+            times.append(packet.time - initial_packet.time)
     # print(packet)
 
 plt.scatter(times, packets)
